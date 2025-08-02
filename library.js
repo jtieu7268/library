@@ -27,11 +27,13 @@ function displayLibrary() {
     for (const book of myLibrary) {
         const bookCardElement = document.createElement("div");
         bookCardElement.setAttribute("id", book.id);
+        bookCardElement.className = "book";
         for (const prop in book) {
             if (prop !== "id" && prop !== "readMessage") {
                 const bookPropertyElement = document.createElement("p");
                 bookPropertyElement.className = prop;
-                bookPropertyElement.textContent = prop === "read" ? book.readMessage() : book[prop];
+                bookPropertyElement.textContent = prop === "read" ? book.readMessage() 
+                                                : prop === "pages" ? `${book[prop]} pages` : book[prop];
                 bookCardElement.appendChild(bookPropertyElement);
             }
         }
