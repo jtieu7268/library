@@ -8,8 +8,12 @@ function Book(title, author, pages, read) {
     this.read = read;
 }
 
-function addBookToLibrary(title, author, pages) {
-    const book = new Book(title, author, pages);
+Book.prototype.readMessage = function () {
+    return `${this.read ? "read" : "has not been read yet" }`;
+}
+
+function addBookToLibrary(title, author, pages, read) {
+    const book = new Book(title, author, pages, read);
     myLibrary.push(book);
 }
 
@@ -24,10 +28,10 @@ function displayLibrary() {
         const bookCardElement = document.createElement("div");
         bookCardElement.setAttribute("id", book.id);
         for (const prop in book) {
-            if (prop !== "id") {
+            if (prop !== "id" && prop !== "readMessage") {
                 const bookPropertyElement = document.createElement("p");
                 bookPropertyElement.className = prop;
-                bookPropertyElement.textContent = book[prop];
+                bookPropertyElement.textContent = prop === "read" ? book.readMessage() : book[prop];
                 bookCardElement.appendChild(bookPropertyElement);
             }
         }
