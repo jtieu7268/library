@@ -69,6 +69,7 @@ function addBookCard(book) {
     }
 
     const bookButtonsElement = document.createElement("div");
+    bookButtonsElement.className = "book-buttons";
 
     const changeReadButton = document.createElement("button");
     bookCardElement.appendChild(bookButtonsElement);
@@ -77,7 +78,6 @@ function addBookCard(book) {
     changeReadButton.addEventListener('click', () => {
         book.toggleRead();
         bookCardElement.querySelector(".read").textContent = book.readMessage();
-        console.log(book.readMessage());
     })
     bookButtonsElement.appendChild(changeReadButton);
 
