@@ -11,6 +11,26 @@
     <div class="container">
         <h1>My Library</h1>
         <button class="new">New Book</button>
+        <dialog class="new-dialog">
+            <form method="dialog">
+                <div>
+                    <label>Title: <input type="text" id="title" required /></label>
+                    <label>Author: <input type="text" id="author" required /></label>
+                    <label>Pages: <input type="number" id="pages" min="1" required /></label>
+                    <label>Read?: 
+                        <select id="read">
+                            <option>No</option>
+                            <option>Yes</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <input type="submit" id="close" value="Close" formnovalidate />
+                    <input type="submit" id="submit-new-book" value="Sumbit" autofocus />
+                </div>
+                
+            </form>
+        </dialog>
         <div class="library">
 
         </div>

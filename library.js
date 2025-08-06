@@ -22,22 +22,53 @@ addBookToLibrary("Pride and Prejudice", "Jane Austen", 367, false);
 addBookToLibrary("The Way of Kings", "Brandon Sanderson", 1001, true);
 addBookToLibrary("Don Quixote", "Miguel de Cervantes", 940, false);
 
-function displayLibrary() {
-    const libraryElement = document.querySelector(".library");
-    for (const book of myLibrary) {
-        const bookCardElement = document.createElement("div");
-        bookCardElement.setAttribute("id", book.id);
-        bookCardElement.className = "book";
-        for (const prop in book) {
-            if (prop !== "id" && prop !== "readMessage") {
-                const bookPropertyElement = document.createElement("p");
-                bookPropertyElement.className = prop;
-                bookPropertyElement.textContent = prop === "read" ? book.readMessage() 
-                                                : prop === "pages" ? `${book[prop]} pages` : book[prop];
-                bookCardElement.appendChild(bookPropertyElement);
+const libraryElement = document.querySelector(".library");
+const newBookElement = document.querySelector(".new");
+const newDialogElement = document.querySelector(".new-dialog");
+newBookElement.addEventListener('click', () => {
+    newDialogElement.showModal();
+})
+const submitBtn = newDialogElement.querySelector("#submit-new-book");
+const formElement = document.querySelector("form");
+submitBtn.addEventListener('click', (event) => {
+    if (!formElement.checkValidity()) {
+        formElement.reportValidity();
+    } else {
+        event.preventDefault();
+        const inputElements = Array.from(formElement.querySelectorAll("input"));
+        let bookArgs = [];
+        const bookProps = Object.getOwnPropertyNames(new Book());
+        for (const input of inputElements) {
+            if (bookProps.includes(input.id)) {
+                bookArgs.push(input.value);
+                input.value = '';
             }
         }
-        libraryElement.appendChild(bookCardElement);
+        newDialogElement.close(...bookArgs);
+        addBookToLibrary(...bookArgs);
+        addBookCard(myLibrary.at(-1));
+    }
+})
+
+function addBookCard(book) {
+    const bookCardElement = document.createElement("div");
+    bookCardElement.setAttribute("id", book.id);
+    bookCardElement.className = "book";
+    for (const prop in book) {
+        if (prop !== "id" && prop !== "readMessage") {
+            const bookPropertyElement = document.createElement("p");
+            bookPropertyElement.className = prop;
+            bookPropertyElement.textContent = prop === "read" ? book.readMessage() 
+                                            : prop === "pages" ? `${book[prop]} pages` : book[prop];
+            bookCardElement.appendChild(bookPropertyElement);
+        }
+    }
+    libraryElement.appendChild(bookCardElement);
+}
+
+function displayLibrary() {
+    for (const book of myLibrary) {
+        addBookCard(book);
     }
 }
 
