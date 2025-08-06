@@ -63,6 +63,13 @@ function addBookCard(book) {
             bookCardElement.appendChild(bookPropertyElement);
         }
     }
+    const delButton = document.createElement("button");
+    delButton.className = "delete";
+    delButton.textContent = "Delete";
+    delButton.addEventListener('click', () => {
+        libraryElement.removeChild(bookCardElement);
+    })
+    bookCardElement.appendChild(delButton);
     libraryElement.appendChild(bookCardElement);
 }
 
