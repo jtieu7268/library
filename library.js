@@ -12,6 +12,10 @@ Book.prototype.readMessage = function () {
     return `${this.read ? "read" : "has not been read yet" }`;
 }
 
+Book.prototype.toggleRead = function () {
+    this.read = !this.read;
+}
+
 function addBookToLibrary(title, author, pages, read) {
     const book = new Book(title, author, pages, read);
     myLibrary.push(book);
@@ -55,7 +59,7 @@ function addBookCard(book) {
     bookCardElement.setAttribute("id", book.id);
     bookCardElement.className = "book";
     for (const prop in book) {
-        if (prop !== "id" && prop !== "readMessage") {
+        if (prop !== "id" && typeof book[prop] !== "function") {
             const bookPropertyElement = document.createElement("p");
             bookPropertyElement.className = prop;
             bookPropertyElement.textContent = prop === "read" ? book.readMessage() 
@@ -63,13 +67,28 @@ function addBookCard(book) {
             bookCardElement.appendChild(bookPropertyElement);
         }
     }
+
+    const bookButtonsElement = document.createElement("div");
+
+    const changeReadButton = document.createElement("button");
+    bookCardElement.appendChild(bookButtonsElement);
+    changeReadButton.className = "change-read";
+    changeReadButton.textContent = "Change Read Status";
+    changeReadButton.addEventListener('click', () => {
+        book.toggleRead();
+        bookCardElement.querySelector(".read").textContent = book.readMessage();
+        console.log(book.readMessage());
+    })
+    bookButtonsElement.appendChild(changeReadButton);
+
     const delButton = document.createElement("button");
     delButton.className = "delete";
     delButton.textContent = "Delete";
     delButton.addEventListener('click', () => {
         libraryElement.removeChild(bookCardElement);
     })
-    bookCardElement.appendChild(delButton);
+    bookButtonsElement.appendChild(delButton);
+
     libraryElement.appendChild(bookCardElement);
 }
 
